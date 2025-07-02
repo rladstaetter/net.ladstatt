@@ -4,22 +4,72 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>net.ladstatt</groupId>
     <artifactId>ladstatt</artifactId>
-    <version>${revision}${changelist}</version>
+    <version>0.0.1</version>
     <name>net.ladstatt</name>
     <description>ladstatt libraries and tools</description>
     <packaging>pom</packaging>
+    <url>https://github.com/rladstaetter/net.ladstatt</url>
+
+    <developers>
+        <developer>
+            <name>Robert ladstaetter</name>
+            <email>rladstaetter@example.com</email>
+            <organization>net.ladstatt</organization>
+            <organizationUrl>https://ladstatt.net/</organizationUrl>
+        </developer>
+    </developers>
+
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
 
     <properties>
-        <revision>0.0.1</revision>
-        <changelist>-SNAPSHOT</changelist>
+        <scala.major.version>2.13</scala.major.version>
+        <scala.version>${scala.major.version}.16</scala.version>
     </properties>
 
     <scm>
         <connection>scm:git:https://github.com/rladstaetter/net.ladstatt.git</connection>
         <developerConnection>scm:git:https://github.com/rladstaetter/net.ladstatt.git</developerConnection>
+        <url>https://github.com/rladstaetter/net.ladstatt</url>
         <tag>HEAD</tag>
     </scm>
 
+    <modules>
+        <module>core</module>
+    </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.scala-lang</groupId>
+                <artifactId>scala-library</artifactId>
+                <version>${scala.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.scalatest</groupId>
+                <artifactId>scalatest_${scala.major.version}</artifactId>
+                <version>3.2.11</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.scalatestplus</groupId>
+                <artifactId>scalacheck-1-15_${scala.major.version}</artifactId>
+                <version>3.2.11.0</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.scalacheck</groupId>
+                <artifactId>scalacheck_${scala.major.version}</artifactId>
+                <version>1.15.4</version>
+                <scope>test</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
     <build>
         <pluginManagement>
             <plugins>
@@ -27,21 +77,120 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-source-plugin</artifactId>
                     <version>2.2.1</version>
+                    <executions>
+                        <execution>
+                            <id>attach-sources</id>
+                            <goals>
+                                <goal>jar-no-fork</goal>
+                            </goals>
+                        </execution>
+                    </executions>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
                     <version>2.9.1</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.sonatype.central</groupId>
-                    <artifactId>central-publishing-maven-plugin</artifactId>
-                    <version>0.8.0</version>
+                    <executions>
+                        <execution>
+                            <id>attach-javadocs</id>
+                            <goals>
+                                <goal>jar</goal>
+                            </goals>
+                        </execution>
+                    </executions>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-gpg-plugin</artifactId>
                     <version>1.5</version>
+                </plugin>
+                <plugin>
+                    <groupId>net.alchim31.maven</groupId>
+                    <artifactId>scala-maven-plugin</artifactId>
+                    <version>4.9.5</version>
+                    <executions>
+                        <execution>
+                            <id>compile-and-testcompile</id>
+                            <goals>
+                                <goal>compile</goal>
+                                <goal>testCompile</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>attach-scaladocs</id>
+                            <phase>prepare-package</phase> <!-- Or generate-resources, depending on your build -->
+                            <goals>
+                                <goal>doc-jar</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>add-scala-sources</id>
+                            <phase>initialize</phase> <goals>
+                            <goal>add-source</goal>
+                        </goals>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <scalaVersion>${scala.version}</scalaVersion>
+                        <failOnError>true</failOnError>
+                        <args>
+                            <arg>-deprecation</arg>
+                            <arg>-encoding</arg>
+                            <arg>utf-8</arg>
+                            <arg>-explaintypes</arg>
+                            <arg>-feature</arg>
+                            <arg>-language:existentials</arg>
+                            <arg>-language:experimental.macros</arg>
+                            <arg>-language:higherKinds</arg>
+                            <arg>-language:implicitConversions</arg>
+                            <arg>-unchecked</arg>
+                            <arg>-Xcheckinit</arg>
+                            <arg>-Xlint:adapted-args</arg>
+                            <arg>-Xlint:constant</arg>
+                            <arg>-Xlint:delayedinit-select</arg>
+                            <arg>-Xlint:doc-detached</arg>
+                            <arg>-Xlint:inaccessible</arg>
+                            <arg>-Xlint:infer-any</arg>
+                            <arg>-Xlint:missing-interpolator</arg>
+                            <arg>-Xlint:nullary-unit</arg>
+                            <arg>-Xlint:option-implicit</arg>
+                            <arg>-Xlint:package-object-classes</arg>
+                            <arg>-Xlint:poly-implicit-overload</arg>
+                            <arg>-Xlint:private-shadow</arg>
+                            <arg>-Xlint:stars-align</arg>
+                            <arg>-Xlint:type-parameter-shadow</arg>
+                            <arg>-Ywarn-unused</arg>
+                            <arg>-Yrangepos</arg>
+                            <arg>-Werror</arg>
+                        </args>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.scalatest</groupId>
+                    <artifactId>scalatest-maven-plugin</artifactId>
+                    <version>2.2.0</version>
+                    <configuration>
+                        <reportsDirectory>${project.build.directory}/surefire-reports</reportsDirectory>
+                        <junitxml>.</junitxml>
+                        <parallel>true</parallel>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>test</id>
+                            <goals>
+                                <goal>test</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.sonatype.central</groupId>
+                    <artifactId>central-publishing-maven-plugin</artifactId>
+                    <version>0.8.0</version>
+                    <extensions>true</extensions>
+                    <configuration>
+                        <publishingServerId>central</publishingServerId>
+                    </configuration>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -65,34 +214,14 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>attach-sources</id>
-                        <goals>
-                            <goal>jar-no-fork</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>attach-javadocs</id>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
             <plugin>
                 <groupId>org.sonatype.central</groupId>
                 <artifactId>central-publishing-maven-plugin</artifactId>
-                <extensions>true</extensions>
-                <configuration>
-                    <publishingServerId>central</publishingServerId>
-                </configuration>
             </plugin>
         </plugins>
     </build>
