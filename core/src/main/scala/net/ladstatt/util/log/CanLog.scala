@@ -63,11 +63,15 @@ trait CanLog extends BasicLogMethods {
     Map(Windows -> Paths.get(s"C:/ProgramData/${appId.id}/")
       , Mac -> Paths.get(System.getProperty("user.home")).resolve(s"Library/Application Support/${appId.id}/")
       , Linux -> Paths.get(System.getProperty("user.home")).resolve(s".${appId.id}/")
+      , LinuxSnap -> Option(System.getenv("SNAP_USER_DATA")).map(p => Paths.get(p)).orNull
       , LinuxFlatPak -> Option(System.getenv("XDG_CONFIG_HOME")).map(p => Paths.get(p)).orNull
     )
 
   lazy val logPathMap: Map[Os, Path] =
-    pathMap ++ Map(LinuxFlatPak -> Option(System.getenv("XDG_DATA_HOME")).map(p => Paths.get(p)).orNull)
+    pathMap ++ Map(
+      LinuxSnap -> Option(System.getenv("SNAP_USER_DATA")).map(p => Paths.get(p)).orNull
+    ,  LinuxFlatPak -> Option(System.getenv("XDG_DATA_HOME")).map(p => Paths.get(p)).orNull
+    )
 
   lazy val logHandler: Handler = CanLog.mkLogHandler(logFilePath, logLevel, appendLogs)
 

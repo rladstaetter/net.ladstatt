@@ -16,7 +16,13 @@ object OsUtil {
   /** running on linux, but virtualized on flatpak */
   case object LinuxFlatPak extends Os
 
-  val runningInFlatPak : Boolean = Option(System.getenv("FLATPAK_ID")).isDefined
+  /** running on linux, but virtualized with snap (https://www.snapcraft.io/) */
+  case object LinuxSnap extends Os
+
+  val runningInFlatPak: Boolean = Option(System.getenv("FLATPAK_ID")).isDefined
+
+  /** true if run in snap */
+  val runningInSnap: Boolean = Option(System.getenv("SNAP_USER_DATA")).isDefined
 
   val currentOs: Os =
     if (System.getProperty("os.name").toLowerCase.contains("windows")) {
@@ -26,6 +32,8 @@ object OsUtil {
     } else if (System.getProperty("os.name").toLowerCase.contains("linux")) {
       if (runningInFlatPak) {
         LinuxFlatPak
+      } else if (runningInSnap) {
+        LinuxSnap
       } else {
         Linux
       }
