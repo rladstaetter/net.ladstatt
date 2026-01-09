@@ -1,15 +1,17 @@
 package net.ladstatt
 
-import net.ladstatt.app.{AppId, AppMeta}
-import net.ladstatt.util.log.CanLog
+import net.ladstatt.util.log.TinyLog
 
-object MyAppTest extends CanLog {
+import java.nio.file.Paths
 
-  val appMeta: AppMeta = AppMeta(AppId("MyApp", "myapp", "my.app"), AppMeta.LogFormat)
+
+object MyAppTest extends TinyLog {
 
   def main(args: Array[String]): Unit = {
-    AppMeta.initApp(appMeta)
+    TinyLog.init(Paths.get("target/simplelog.log"))
     logTrace("trace")
+    logConfig("config")
+    logError("severe")
     logWarn("warn")
     logInfo("info")
     logException("exception", new Throwable("java.lang.Exception"))

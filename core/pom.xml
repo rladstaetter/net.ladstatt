@@ -6,7 +6,7 @@
     <parent>
         <groupId>net.ladstatt</groupId>
         <artifactId>ladstatt</artifactId>
-        <version>0.0.4</version>
+        <version>0.0.5</version>
     </parent>
     <groupId>net.ladstatt.core</groupId>
     <artifactId>core</artifactId>

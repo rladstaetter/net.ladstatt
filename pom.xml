@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>net.ladstatt</groupId>
     <artifactId>ladstatt</artifactId>
-    <version>0.0.4</version>
+    <version>0.0.5</version>
     <name>net.ladstatt</name>
     <description>ladstatt libraries and tools</description>
     <packaging>pom</packaging>

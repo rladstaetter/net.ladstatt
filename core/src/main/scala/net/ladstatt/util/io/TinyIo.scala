@@ -1,6 +1,6 @@
 package net.ladstatt.util.io
 
-import net.ladstatt.util.log.BasicLogMethods
+import net.ladstatt.util.log.TinyLog
 
 import java.nio.charset.Charset
 import java.nio.file._
@@ -8,8 +8,8 @@ import java.nio.file._
 /**
  * File related operations
  */
-trait Fs {
-  self: BasicLogMethods =>
+trait TinyIo {
+  self: TinyLog =>
 
   def createDirectories(path: Path): Unit = {
     if (Files.exists(path)) {
@@ -24,5 +24,10 @@ trait Fs {
     createDirectories(path.getParent)
     Files.write(path, content.getBytes(Charset.forName("UTF-8")))
   }, s"Wrote '${path.toAbsolutePath.toString}'")
+
+  def copy(source: Path, target: Path): Unit = {
+    Files.copy(source, target, StandardCopyOption.REPLACE_EXISTING)
+    logTrace(s"Copied '${source.toAbsolutePath}' to '${target.toAbsolutePath}'.")
+  }
 
 }

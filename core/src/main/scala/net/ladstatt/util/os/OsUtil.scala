@@ -1,5 +1,6 @@
 package net.ladstatt.util.os
 
+
 /**
  * Determine which OS we are running on
  */
@@ -55,4 +56,5 @@ object OsUtil {
     } else if (isMac) {
       onMac
     } else onLinux
+
 }
