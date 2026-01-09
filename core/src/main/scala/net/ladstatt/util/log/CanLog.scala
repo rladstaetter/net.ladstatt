@@ -102,6 +102,8 @@ trait CanLog extends BasicLogMethods {
     }
   }
 
+  def logConfig(msg : String) : Unit = Try(log.config(msg))
+
   def logInfo(msg: String): Unit = Try(log.info(msg))
 
   def logWarn(msg: String): Unit = Try(log.warning(msg))
