@@ -55,25 +55,20 @@ trait CanLog extends BasicLogMethods {
   def appId: AppId = {
     AppId(
       System.getProperty("app.name")
+      , System.getProperty("app.id")
       , System.getProperty("app.groupId")
-      , System.getProperty("app.id"))
+    )
   }
 
   lazy val pathMap: Map[Os, Path] =
-    Map(Windows -> Paths.get(s"C:/ProgramData/${appId.id}/")
-      , Mac -> Paths.get(System.getProperty("user.home")).resolve(s"Library/Application Support/${appId.id}/")
-      , Linux -> Paths.get(System.getProperty("user.home")).resolve(s".${appId.id}/")
+    Map(Windows -> Paths.get(s"C:/ProgramData/${appId.groupId}/")
+      , Mac -> Paths.get(System.getProperty("user.home")).resolve(s"Library/Application Support/${appId.groupId}/")
+      , Linux -> Paths.get(System.getProperty("user.home")).resolve(s".${appId.groupId}/")
       , LinuxSnap -> Option(System.getenv("SNAP_USER_DATA")).map(p => Paths.get(p)).orNull
       , LinuxFlatPak -> Option(System.getenv("XDG_CONFIG_HOME")).map(p => Paths.get(p)).orNull
     )
 
-  lazy val logPathMap: Map[Os, Path] =
-    pathMap ++ Map(
-      LinuxSnap -> Option(System.getenv("SNAP_USER_DATA")).map(p => Paths.get(p)).orNull
-    ,  LinuxFlatPak -> Option(System.getenv("XDG_DATA_HOME")).map(p => Paths.get(p)).orNull
-    )
-
-  lazy val logHandler: Handler = CanLog.mkLogHandler(logFilePath, logLevel, appendLogs)
+  lazy val logHandler: Handler = CanLog.mkLogHandler(logFile, logLevel, appendLogs)
 
   lazy val log: Logger = {
     val lggr = Logger.getLogger(this.getClass.getName)
@@ -82,9 +77,14 @@ trait CanLog extends BasicLogMethods {
     lggr
   }
 
-  def logFilePath: Path = logPathMap(OsUtil.currentOs).resolve(appId.id + ".log")
+  /** returns path where application stores its transient data (like configuration or logs) */
+  def appDataDirectory: Path = pathMap(OsUtil.currentOs)
 
-  def settingsFilePath: Path = pathMap(OsUtil.currentOs).resolve(appId.id + ".conf")
+  /** path of the application log file */
+  def logFile: Path = pathMap(OsUtil.currentOs).resolve(appId.id + ".log")
+
+  /** path of the application's configuration file */
+  def settingsFile: Path = pathMap(OsUtil.currentOs).resolve(appId.id + ".json")
 
   def logLevel: Level = Level.INFO
 
