@@ -5,6 +5,9 @@ import scala.language.postfixOps
 
 trait BasicLogMethods {
 
+  /** for logging configuration related messages */
+  def logConfig(msg: String): Unit
+
   def logInfo(msg: String): Unit
 
   def logWarn(msg: String): Unit
