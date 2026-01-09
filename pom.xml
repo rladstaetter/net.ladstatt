@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>net.ladstatt</groupId>
     <artifactId>ladstatt</artifactId>
-    <version>0.0.3</version>
+    <version>0.0.4</version>
     <name>net.ladstatt</name>
     <description>ladstatt libraries and tools</description>
     <packaging>pom</packaging>
@@ -13,7 +13,7 @@
     <developers>
         <developer>
             <name>Robert ladstaetter</name>
-            <email>rladstaetter@example.com</email>
+            <email>rladstaetter@gmail.com</email>
             <organization>net.ladstatt</organization>
             <organizationUrl>https://ladstatt.net/</organizationUrl>
         </developer>
@@ -186,7 +186,7 @@
                 <plugin>
                     <groupId>org.sonatype.central</groupId>
                     <artifactId>central-publishing-maven-plugin</artifactId>
-                    <version>0.8.0</version>
+                    <version>0.10.0</version>
                     <extensions>true</extensions>
                     <configuration>
                         <publishingServerId>central</publishingServerId>
