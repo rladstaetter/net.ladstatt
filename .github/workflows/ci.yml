@@ -1,0 +1,22 @@
+name: Maven CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: net-ladstatt-ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  portable-linux-arm64:
+    uses: rladstaetter/infra/.github/workflows/maven-ci.yml@javafx-ci-1.1.0
+    with:
+      runner: ubuntu-24.04-arm
+      java-architecture: aarch64
+      verify-command: ./mvnw -B -ntp test -Dstyle.color=never
