@@ -1,0 +1,25 @@
+{
+  "schema": "backbone.project.v1",
+  "id": "net-ladstatt",
+  "name": "net.ladstatt",
+  "owner": "rladstaetter",
+  "kind": "library",
+  "lifecycle": "maintenance",
+  "audience": "developers",
+  "platforms": ["macos", "linux", "windows"],
+  "deployments": ["github-release"],
+  "monetization": ["none"],
+  "surfaces": {
+    "website": {"status": "not-applicable"},
+    "social": {"status": "not-applicable"}
+  },
+  "evidence": {
+    "documentation": "README.md"
+  },
+  "portfolio": {
+    "typeLabel": "Maven library",
+    "buildTargets": {},
+    "artifacts": ["library"]
+  },
+  "decisions": []
+}
