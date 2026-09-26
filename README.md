@@ -1,3 +1,5 @@
 # net.ladstatt
 
-Provides some helpful methods and functions which are used by some of my projects.
+Share small Scala utilities used across related projects.
+
+Read [Project documentation](documentation.html) for the vision, current state, user benefits, implementation guide and detailed references.

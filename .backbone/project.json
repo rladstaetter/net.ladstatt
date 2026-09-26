@@ -14,7 +14,7 @@
     "social": {"status": "not-applicable"}
   },
   "evidence": {
-    "documentation": "README.md"
+    "documentation": "documentation.html"
   },
   "portfolio": {
     "typeLabel": "Maven library",
