@@ -8,3 +8,6 @@ how-to-deploy.txt
 target
 .idea
 **/.flattened-pom.xml
+
+# Durable local artifacts and recovery evidence; target/ remains disposable.
+/artifacts/
